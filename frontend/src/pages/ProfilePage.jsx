@@ -61,7 +61,7 @@ const ProfilePage = () => {
               </label>
             </div>
             <p className="text-sm text-zinc-400">
-              {isUpdatingProfile ? "Uploading..." : "Click the camera icon to update your profile picture"}
+              {isUpdatingProfile ? "Uploading..." : "Tap the camera icon to update your profile picture"}
             </p>
           </div>
 
