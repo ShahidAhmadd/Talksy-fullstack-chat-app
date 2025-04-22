@@ -2,23 +2,23 @@ import { useEffect, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
-import { Users } from "lucide-react";
+import { Users, LogOut, Settings, User } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore()
-
-  const { onlineUsers } = useAuthStore();
+  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
+  const { onlineUsers, authUser, logout } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
 
   useEffect(() => {
-    getUsers()
-  }, [getUsers])
+    getUsers();
+  }, [getUsers]);
 
   const filteredUsers = showOnlineOnly
-  ? users.filter((user) => onlineUsers.includes(user._id))
-  : users;
+    ? users.filter((user) => onlineUsers.includes(user._id))
+    : users;
 
-  if (isUsersLoading) return <SidebarSkeleton />
+  if (isUsersLoading) return <SidebarSkeleton />;
 
   return (
     <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
@@ -28,7 +28,7 @@ const Sidebar = () => {
           <span className="font-medium hidden lg:block">Contacts</span>
         </div>
         
-         <div className="mt-3 flex items-center gap-2 lg:flex-row flex-col">
+        <div className="mt-3 flex items-center gap-2 lg:flex-row flex-col">
           <label className="cursor-pointer flex items-center gap-2">
             <input
               type="checkbox"
@@ -42,8 +42,8 @@ const Sidebar = () => {
         </div> 
       </div>
 
-      <div className="overflow-y-auto w-full py-3">
-      {filteredUsers.map((user) => (
+      <div className="flex-1 overflow-y-auto w-full py-3">
+        {filteredUsers.map((user) => (
           <button
             key={user._id}
             onClick={() => setSelectedUser(user)}
@@ -67,7 +67,6 @@ const Sidebar = () => {
               )}
             </div>
 
-            {/* User info - only visible on larger screens */}
             <div className="hidden lg:block text-left min-w-0">
               <div className="font-medium truncate">{user.fullName}</div>
               <div className="text-sm text-zinc-400">
@@ -81,7 +80,37 @@ const Sidebar = () => {
           <div className="text-center text-zinc-500 py-4">No online users</div>
         )} 
       </div>
+
+      {authUser && (
+        <div className="border-t border-base-300 w-full p-2 flex flex-col sm:flex-row gap-1 justify-center sm:justify-center lg:flex-row lg:justify-start">
+          <Link
+            to="/settings"
+            className="btn btn-xs gap-1 bg-base-200 hover:bg-base-300 border-base-300 text-base-content transition-colors"
+            title="Themes"
+          >
+            <Settings className="w-3 h-3" />
+            <span className="hidden lg:inline text-xs">Themes</span>
+          </Link>
+          <Link
+            to="/profile"
+            className="btn btn-xs gap-1 bg-base-200 hover:bg-base-300 border-base-300 text-base-content transition-colors"
+            title="Profile"
+          >
+            <User className="w-3 h-3" />
+            <span className="hidden lg:inline text-xs">Profile</span>
+          </Link>
+          <button
+            className="btn btn-xs gap-1 bg-red-500 hover:bg-red-600 text-white border-none transition-colors"
+            onClick={logout}
+            title="Logout"
+          >
+            <LogOut className="w-3 h-3" />
+            <span className="hidden lg:inline text-xs">Logout</span>
+          </button>
+        </div>
+      )}
     </aside>
   );
 };
+
 export default Sidebar;

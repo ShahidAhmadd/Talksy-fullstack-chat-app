@@ -1,22 +1,66 @@
+import { useThemeStore } from "../store/useThemeStore";
+
 const AuthImagePattern = ({ title, subtitle }) => {
-    return (
-      <div className="hidden lg:flex items-center justify-center bg-base-200 p-12">
-        <div className="max-w-md text-center">
-          <div className="grid grid-cols-3 gap-3 mb-8">
-            {[...Array(9)].map((_, i) => (
-              <div
-                key={i}
-                className={`aspect-square rounded-2xl bg-primary/10 ${
-                  i % 2 === 0 ? "animate-pulse" : ""
-                }`}
-              />
-            ))}
+  const { theme = "light" } = useThemeStore(); // Fallback to 'light'
+
+  return (
+    <div
+      className={`w-full flex flex-1 flex-col items-center justify-center p-8 sm:p-16 pt-52 sm:pt-60 ${
+        theme === "dark"
+          ? "bg-gradient-to-br from-gray-900/60 to-gray-800/60"
+          : "bg-gradient-to-br from-base-100/60 to-base-200/60"
+      }`}
+    >
+      <style>
+        {`
+          @keyframes livelyImage {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+            50% { transform: scale(1.03) rotate(1deg); opacity: 1; }
+          }
+        `}
+      </style>
+      <div className="max-w-md text-center space-y-14">
+        {/* Animated Image */}
+        <div className="flex justify-center mb-10 animate-bounce">
+          <div
+            className={`w-56 h-56 rounded-2xl ${
+              theme === "dark"
+                ? "bg-primary/25 shadow-lg"
+                : "bg-primary/20 shadow-sm"
+            } flex items-center justify-center`}
+            style={{
+              animation: "livelyImage 2s ease-in-out infinite",
+            }}
+          >
+            <img
+              src="/talksy.png" // Ensure this path is correct
+              alt="Talksy Logo"
+              className={`w-48 h-48 object-contain ${
+                theme === "dark" ? "brightness-90" : ""
+              }`}
+            />
           </div>
-          <h2 className="text-2xl font-bold mb-4">{title}</h2>
-          <p className="text-base-content/60">{subtitle}</p>
         </div>
+
+        {/* Title and Subtitle */}
+        <h2
+          className={`text-3xl sm:text-4xl font-bold tracking-tight drop-shadow-sm animate-bounce ${
+            theme === "dark" ? "text-white" : "text-base-content"
+          }`}
+        >
+          {title || "Welcome to Talksy!"}
+        </h2>
+        <p
+          className={`text-base sm:text-lg leading-relaxed gap-10 ${
+            theme === "dark" ? "text-gray-300" : "text-base-content/70"
+          }`}
+        >
+          {subtitle || "Join the conversation today."}
+          
+        </p>
       </div>
-    );
-  };
-  
-  export default AuthImagePattern;
+    </div>
+  );
+};
+
+export default AuthImagePattern;

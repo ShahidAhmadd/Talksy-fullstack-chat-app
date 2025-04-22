@@ -11,47 +11,55 @@ const SettingsPage = () => {
   const { theme, setTheme } = useThemeStore();
 
   return (
-    <div className="h-screen container mx-auto px-4 pt-20 max-w-5xl">
-      <div className="space-y-6">
-        <div className="flex flex-col gap-1">
-          <h2 className="text-lg font-semibold">Theme</h2>
-          <p className="text-sm text-base-content/70">Choose a chat theme to personalize your experience</p>
-        </div>
+    <div className="min-h-screen bg-base-100 flex flex-col items-center p-1 sm:p-2 pt-16 lg:pt-20">
+      {/* Header */}
+      <header className="w-full max-w-5xl mb-4 text-center">
+        <h1 className="text-2xl font-bold text-base-content">Theme Store</h1>
+        <p className="text-base-content/70 mt-1">
+        Choose a chat theme to personalize your experience</p>
+      </header>
 
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
-          {THEMES.map((t) => (
-            <button
-              key={t}
-              className={`
-                group flex flex-col items-center gap-1.5 p-2 rounded-lg transition-colors
-                ${theme === t ? "bg-base-200" : "hover:bg-base-200/50"}
-              `}
-              onClick={() => setTheme(t)}
-            >
-              <div className="relative h-8 w-full rounded-md overflow-hidden" data-theme={t}>
-                <div className="absolute inset-0 grid grid-cols-4 gap-px p-1">
-                  <div className="rounded bg-primary"></div>
-                  <div className="rounded bg-secondary"></div>
-                  <div className="rounded bg-accent"></div>
-                  <div className="rounded bg-neutral"></div>
+      {/* Main Content */}
+      <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-4">
+        {/* Theme Selection Card */}
+        <section className="w-full lg:w-1/4 bg-base-100/90 backdrop-blur-md rounded-xl p-4 shadow-md border border-base-300">
+          <h2 className="text-lg font-semibold mb-3 text-base-content">Theme Gallery</h2>
+          <p className="text-sm text-base-content/60 mb-4">Swipe to explore styles</p>
+          <div className="space-y-3 max-h-[55vh] overflow-y-auto overflow-x-hidden">
+            {THEMES.map((t, index) => (
+              <button
+                key={t}
+                className={`
+                  w-full flex items-center gap-2 p-2 rounded-lg transition-all duration-200
+                  ${theme === t ? "bg-base-200" : "hover:bg-base-200/50"}
+                  focus:outline-none focus:ring-2 focus:ring-primary
+                `}
+                onClick={() => setTheme(t)}
+              >
+                <div className="w-10 h-10 rounded-lg overflow-hidden border border-base-300">
+                  <div className="h-full grid grid-cols-2 gap-0.5 p-0.5" data-theme={t}>
+                    <div className="rounded bg-primary"></div>
+                    <div className="rounded bg-secondary"></div>
+                    <div className="rounded bg-accent"></div>
+                    <div className="rounded bg-neutral"></div>
+                  </div>
                 </div>
-              </div>
-              <span className="text-[11px] font-medium truncate w-full text-center">
-                {t.charAt(0).toUpperCase() + t.slice(1)}
-              </span>
-            </button>
-          ))}
-        </div>
+                <span className="text-sm font-medium capitalize text-base-content">
+                  {t}
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
 
-        {/* Preview Section */}
-        <h3 className="text-lg font-semibold mb-3">Preview</h3>
-        <div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-lg">
-          <div className="p-4 bg-base-200">
-            <div className="max-w-lg mx-auto">
-              {/* Mock Chat UI */}
-              <div className="bg-base-100 rounded-xl shadow-sm overflow-hidden">
-                {/* Chat Header */}
-                <div className="px-4 py-3 border-b border-base-300 bg-base-100">
+        {/* Preview Card */}
+        <section className="w-full lg:w-3/4 bg-base-100/90 backdrop-blur-md rounded-xl p-4 shadow-md border border-base-300">
+          <h2 className="text-lg font-semibold mb-3 text-base-content">Live Preview</h2>
+          <div className="bg-base-200 rounded-xl overflow-hidden shadow-inner">
+            {/* Chat Container */}
+            <div className="p-4">
+              {/* Chat Header */}
+              <div className="px-4 py-3 border-b border-base-300 bg-base-100">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-content font-medium">
                       J
@@ -103,14 +111,14 @@ const SettingsPage = () => {
                     <button className="btn btn-primary h-10 min-h-0">
                       <Send size={18} />
                     </button>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
 };
+
 export default SettingsPage;
