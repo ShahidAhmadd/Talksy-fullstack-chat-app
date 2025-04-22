@@ -5,7 +5,7 @@ const AuthImagePattern = ({ title, subtitle }) => {
 
   return (
     <div
-      className={`w-full flex flex-1 flex-col items-center justify-center p-8 sm:p-16 pt-52 sm:pt-60 ${
+      className={`w-full flex flex-1 flex-col items-center justify-center p-8 sm:p-16 pt-54 sm:pt-64 ${
         theme === "dark"
           ? "bg-gradient-to-br from-gray-900/60 to-gray-800/60"
           : "bg-gradient-to-br from-base-100/60 to-base-200/60"
@@ -19,7 +19,7 @@ const AuthImagePattern = ({ title, subtitle }) => {
           }
         `}
       </style>
-      <div className="max-w-md text-center space-y-14">
+      <div className="max-w-md text-center space-y-12">
         {/* Animated Image */}
         <div className="flex justify-center mb-10 animate-bounce">
           <div
